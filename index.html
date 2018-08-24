@@ -31,30 +31,6 @@
         .link:hover {
             stroke-opacity: .5;
         }
-        .node {
-      cursor: pointer;
-    }
-
-    .node:hover {
-      stroke: #000;
-      stroke-width: 1.5px;
-    }
-
-    .node--leaf {
-      fill: white;
-    }
-
-    .label {
-      font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
-      text-anchor: middle;
-      text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
-    }
-
-    .label,
-    .node--root,
-    .node--leaf {
-      pointer-events: none;
-    }
     </style>
 </head>
 
@@ -95,12 +71,8 @@
             <div class="col-md-12" id="chart">
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12" id="bubble">
-            </div>
-        </div>
     </div>
-    <script type="text/javascript" src="http://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
     <script src="sankey.js"></script>
     <script>
 
@@ -125,9 +97,8 @@
             .size([width, height]);
         var path = sankey.link();
         // load the data (using the timelyportfolio csv method)
-       
         // d3.csv("sankey.csv", function (error, data) {
-        d3.json("data1.json", function (error, data) {
+            d3.json("data1.json", function (error, data) {
             //set up graph in same style as original example but empty
             graph = { "nodes": [], "links": [] };
             data.forEach(function (d) {
@@ -138,7 +109,7 @@
                     "source": d.CLICK_SOURCE,
                     "target": d.PPC_TYPE,
                     "value": 1
-
+                    
                 });
                 graph.links.push({
                     "source": d.PPC_TYPE,
@@ -146,12 +117,12 @@
                     "value": 1
                 });
             });
-
+            
             // return only the distinct / unique nodes
             graph.nodes = d3.keys(d3.nest()
                 .key(function (d) { return d.name; })
                 .map(graph.nodes));
-
+                
             // loop through each link replacing the text with its index from node
             graph.links.forEach(function (d, i) {
                 graph.links[i].source = graph.nodes.indexOf(graph.links[i].source);
@@ -163,10 +134,6 @@
                 graph.nodes[i] = { "name": d };
             });
             // console.log(graph)
-
-            //bubble graph for visit count.
-           
-
             sankey
                 .nodes(graph.nodes)
                 .links(graph.links)
@@ -233,9 +200,6 @@
                 sankey.relayout();
                 link.attr("d", path);
             }
-
-            //bubble chart
-                
         });
     </script>
 </body>
